@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Roleta de Nomes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #f0f0f0;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 300px;
+      height: 150px;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+      resize: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #00bcd4;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0097a7;
+    }
+
+    #roleta {
+      margin-top: 30px;
+      font-size: 26px;
+      height: 40px;
+      font-weight: bold;
+      color: #ffd700;
+      min-height: 40px;
+    }
+
+    #resultado-final {
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      color: #28f783;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎡 Roleta de Nomes</h1>
+  <p>Digite um nome por linha:</p>
+  <textarea id="nomes" placeholder="Ex: Teemo&#10;Shaco&#10;Neeko"></textarea><br>
+  <button onclick="iniciarRoleta()">Sortear</button>
+
+  <div id="roleta"></div>
+  <div id="resultado-final"></div>
+
+  <script>
+    function iniciarRoleta() {
+      const input = document.getElementById('nomes').value.trim();
+      const nomes = input.split('\n').map(n => n.trim()).filter(n => n !== '');
+
+      if (nomes.length === 0) {
+        document.getElementById('roleta').innerText = "Digite ao menos 1 nome!";
+        return;
+      }
+
+      const roleta = document.getElementById('roleta');
+      const resultadoFinal = document.getElementById('resultado-final');
+      resultadoFinal.innerText = '';
+      
+      let count = 0;
+      let maxCount = 40; // quanto mais, mais tempo "gira"
+      const intervalo = setInterval(() => {
+        const sorteado = nomes[Math.floor(Math.random() * nomes.length)];
+        roleta.innerText = `🎲 ${sorteado}`;
+        count++;
+
+        if (count >= maxCount) {
+          clearInterval(intervalo);
+          resultadoFinal.innerText = `🎉 O sorteado foi: ${sorteado}!`;
+        }
+      }, 100); // velocidade da roleta
+    }
+  </script>
+
+</body>
+</html>
